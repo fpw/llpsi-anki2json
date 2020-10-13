@@ -92,7 +92,7 @@ export class AnkiReader {
                 name: model.name,
                 fields: new Map(),
             };
-            
+
             for (const field of model.flds) {
                 type.fields.set(field.name, field.ord);
             }
@@ -136,7 +136,7 @@ export class AnkiReader {
     private addTagInfo(word: any, tags: string[]) {
         word.chapter = 0;
         word.grammaticalTerm = false;
-        
+
         for (const tag of tags) {
             const match = tag.match(/chap(\d+)/);
             if (match) {
