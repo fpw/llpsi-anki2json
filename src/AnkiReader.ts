@@ -108,7 +108,7 @@ export class AnkiReader {
         }
 
         const word = this.fieldsToObject(model, fields);
-        this.addChapterInfo(word, tags);
+        this.addTagInfo(word, tags);
         return word;
     }
 
@@ -133,14 +133,20 @@ export class AnkiReader {
         return str;
     }
 
-    private addChapterInfo(word: any, tags: string[]) {
+    private addTagInfo(word: any, tags: string[]) {
+        word.chapter = 0;
+        word.grammaticalTerm = false;
+        
         for (const tag of tags) {
             const match = tag.match(/chap(\d+)/);
             if (match) {
                 word.chapter = Number.parseInt(match[1], 10);
-                return;
+            } else if (tag == 'grammar') {
+                word.grammaticalTerm = true;
             }
         }
-        throw Error(`No chapter for word ${word.english}`);
+        if (!word.chapter) {
+            throw Error(`No chapter for word ${word.english}`);
+        }
     }
 }
